@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+    <title>Title</title>
+    <!--springboot 默认从 classpath:/static/ 查找-->
+    <script src="vue/vue.js"></script>
+    <script src="vue/axios.js"></script>
+</head>
+<body>
+<div id="vm">
+    <table>
+        <thead>
+        <tr>
+            <th class="center">版本号</th>
+            <th class="center">系统平台</th>
+            <th class="center">是否强制更新</th>
+            <th class="center">下载地址</th>
+        </tr>
+        </thead>
+
+        <tr v-for="app in pageInfo.list">
+            <td>{{app.versionNo}}</td>
+            <td>{{app.platform}}</td>
+            <td>{{app.forceUpdate}}</td>
+            <td>{{app.downPath}}</td>
+        </tr>
+    </table>
+
+</div>
+</body>
+<script>
+    let vm = new Vue({
+        el:'#vm',
+        data:{
+            pageInfo:[]
+        },
+        methods:{
+            selectAll:function () {
+                axios({
+                    url:'selectAll'
+                }).then(response=>{
+                    this.pageInfo=response.data;
+                }).catch(error=>{
+                    console.log(error.message);
+                })
+            }
+        },
+        created:function () {
+            this.selectAll();
+        }
+    })
+</script>
+</html>

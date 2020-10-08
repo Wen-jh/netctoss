@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/netctoss?characterEncoding=utf8&useSSL=false&serverTimezone = GMT
+    username: root
+    password: password
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  type-aliases-package: com.example.springboot.entity
+  configuration:
+    map-underscore-to-camel-case: true
+  jap:
+    show-sql: true
+  redis:
+    password: 123456
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 2
+#日志整合
+#    hibernate:
+#     ddl-auto: update
+
+logging:
+  level:
+    com:
+      example:
+        springboot:
+          mapper: trace
+    org:
+      springframework:
+        cache: trace

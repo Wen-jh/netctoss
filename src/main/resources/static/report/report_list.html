@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>NetCTOSS</title>
+        <link type="text/css" rel="stylesheet" media="all" href="../styles/global.css" />
+        <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css" />
+
+    </head>
+    <body>
+        <!--Logo区域开始-->
+        <div id="header">
+            <img src="../images/logo.png" alt="logo" class="left"/>
+            <a href="#">[退出]</a>            
+        </div>
+        <!--Logo区域结束-->
+        <!--导航区域开始-->
+        <div id="navi">                        
+            <ul id="menu">
+                <li><a href="../index.html" class="index_off"></a></li>
+                <li><a href="../role/role_list.html" class="role_off"></a></li>
+                <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
+                <li><a href="../fee/fee_list.html" class="fee_off"></a></li>
+                <li><a href="../account/account_list.html" class="account_off"></a></li>
+                <li><a href="../service/service_list.html" class="service_off"></a></li>
+                <li><a href="../bill/bill_list.html" class="bill_off"></a></li>
+                <li><a href="../report/report_list.html" class="report_on"></a></li>
+                <li><a href="../user/user_info.html" class="information_off"></a></li>
+                <li><a href="../user/user_modi_pwd.html" class="password_off"></a></li>
+            </ul>            
+        </div>
+        <!--导航区域结束-->
+        <!--主要区域开始-->        
+        <div id="report_main">
+        	<div class="tabs">
+    	        <ul>
+        	        <li><a @Click="toSelectPage" class="tab_on" title="每位客户每月的累计时长">客户使用时长</a></li>
+                    <li><a @Click="toSelectUnix" class="tab_out" title="每台服务器上累计时长最高的前三名客户">时长排行榜</a></li>
+                    <li><a @Click="toSelectBill" class="tab_out" title="每台服务器每种资费标准的使用次数">资费使用率</a></li>
+                </ul>
+            </div>            
+            <div class="report_box">
+                <!--数据区域：用表格展示数据-->
+                <div id="report_data">
+                    <table id="datalist" v-if="datalist">
+                        <tr>                            
+                            <th>账号 ID</th>
+                            <th>账务帐号</th>
+                            <th>客户名称</th>
+                            <th class="width200">身份证号码</th>
+                            <th>电话</th>
+                            <th class="width150">月份</th>
+                            <th class="width150">累积时长</th>
+                        </tr>                      
+                        <tr v-for="r in pageInfo.list">
+                            <td>{{r.accountId}}</td>
+                            <td>{{r.accountLoginName}}</td>
+                            <td>{{r.accountRealName}}</td>
+                            <td>{{r.accountIdcardNo}}</td>
+                            <td>{{r.accountTelephone}}</td>
+                            <td>{{r.accountCreateDate}}</td>
+                            <td>{{r.days}}</td>
+                        </tr>
+                    </table>
+                    <table id="datalist1" v-if="datalist1" >
+                        <tr>                            
+                            <th class="width300">Unix 服务器IP</th>
+                            <th>账务帐号</th>
+                            <th>客户名称</th>
+                            <th class="width200">身份证号码</th>
+                            <th class="width150">累积时长</th>
+                        </tr>                      
+                        <tr v-for="r in pageInfoUnix.list">
+                            <td>{{r.unixHost}}</td>
+                            <td>{{r.osUsername}}</td>
+                            <td>{{r.accountRealName}}</td>
+                            <td>{{r.accountIdcardNo}}</td>
+                            <td>{{r.days}}</td>
+                        </tr>
+                    </table>
+                    <table id="datalist2" v-if="datalist2" >
+                        <tr>                            
+                            <th class="width300">Unix 服务器IP</th>
+                            <th>包月</th>
+                            <th>套餐</th>
+                            <th>计时</th>
+                        </tr>                      
+                        <tr v-for="r in pageInfoBill.list">
+                            <td>{{r.unixHost}}</td>
+                            <td>{{r.costName}}</td>
+                            <td>{{r.costBaseDuration}}</td>
+                            <td>{{r.costCreatTime}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <!--分页-->
+                <div id="pages" v-if="datalist">
+                    <a @click="selectPage(1,pageInfo.pageSize)">首页</a>
+                    <a v-if="!pageInfo.hasPreviousPage">上一页</a>
+                    <a v-else href="javascript:void(0);" @click="selectPage(pageInfo.prePage,pageInfo.pageSize)">上一页</a>
+                    <span :class="pageInfo.pageNum===i?'active':''"  v-for="i in pageInfo.navigatepageNums">
+                        <a href="javascript:void(0);" @click="selectPage(i,pageInfo.pageSize)">{{i}}</a>
+                    </span>
+                    <a v-if="!pageInfo.hasNextPage">下一页</a>
+                    <a v-else href="javascript:void(0);" @click="selectPage(pageInfo.nextPage,pageInfo.pageSize)">下一页</a>
+                    <a  @click="selectPage(pageInfo.pages,pageInfo.pageSize)">末页</a>
+                </div>
+                <div id="pages1" v-if="datalist1">
+                    <a @click="selectUnix(1,pageInfoUnix.pageSize)">首页</a>
+                    <a v-if="!pageInfoUnix.hasPreviousPage">上一页</a>
+                    <a v-else href="javascript:void(0);" @click="selectUnix(pageInfoUnix.prePage,pageInfoUnix.pageSize)">上一页</a>
+                    <span :class="pageInfoUnix.pageNum===i?'active':''"  v-for="i in pageInfoUnix.navigatepageNums">
+                        <a href="javascript:void(0);" @click="selectUnix(i,pageInfoUnix.pageSize)">{{i}}</a>
+                    </span>
+                    <a v-if="!pageInfoUnix.hasNextPage">下一页</a>
+                    <a v-else href="javascript:void(0);" @click="selectUnix(pageInfoUnix.nextPage,pageInfoUnix.pageSize)">下一页</a>
+                    <a  @click="selectUnix(pageInfoUnix.pages,pageInfoUnix.pageSize)">末页</a>
+                </div>
+                <div id="pages2" v-if="datalist2">
+                    <a @click="selectBill(1,pageInfoBill.pageSize)">首页</a>
+                    <a v-if="!pageInfoBill.hasPreviousPage">上一页</a>
+                    <a v-else href="javascript:void(0);" @click="selectBill(pageInfoBill.prePage,pageInfoBill.pageSize)">上一页</a>
+                    <span :class="pageInfoBill.pageNum===i?'active':''"  v-for="i in pageInfoBill.navigatepageNums">
+                        <a href="javascript:void(0);" @click="selectBill(i,pageInfoBill.pageSize)">{{i}}</a>
+                    </span>
+                    <a v-if="!pageInfoBill.hasNextPage">下一页</a>
+                    <a v-else href="javascript:void(0);" @click="selectBill(pageInfoBill.nextPage,pageInfoBill.pageSize)">下一页</a>
+                    <a  @click="selectBill(pageInfoBill.pages,pageInfoBill.pageSize)">末页</a>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../jquery/jquery.js"></script>
+    <script type="text/javascript" src="../vue/vue.js"></script>
+    <script type="text/javascript" src="../vue/axios.js"></script>
+    <script type="text/javascript" src="../js/report/report_list.js"></script>
+</html>
