@@ -31,6 +31,11 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
+    public com.example.springboot.entity.Service selectServiceById(Integer id) {
+        return serviceMapper.selectServiceById(id);
+    }
+
+    @Override
     public PageInfo<com.example.springboot.entity.Service> selectBill(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<com.example.springboot.entity.Service> services = serviceMapper.selectBill();

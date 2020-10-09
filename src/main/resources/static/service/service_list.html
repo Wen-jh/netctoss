@@ -56,18 +56,18 @@
             <form action="" method="">
                 <!--查询-->
                 <div class="search_add">                        
-                    <div>OS 账号：<input type="text" value="" class="width100 text_search" /></div>                            
-                    <div>服务器 IP：<input type="text" value="" class="width100 text_search" /></div>
-                    <div>身份证：<input type="text"  value="" class="text_search" /></div>
+                    <div>OS 账号：<input type="text" v-model="params.osUsername" class="width100 text_search"  /></div>
+                    <div>服务器 IP：<input type="text" v-model="params.unixHost" class="width100 text_search" /></div>
+                    <div>身份证：<input type="text"  v-model="params.accountIdcardNo" class="text_search" /></div>
                     <div>状态：
-                        <select class="select_search">
-                            <option>全部</option>
-                            <option>开通</option>
-                            <option>暂停</option>
-                            <option>删除</option>
+                        <select class="select_search" v-model="params.accountStatus">
+                            <option value="">全部</option>
+                            <option value="0">开通</option>
+                            <option value="1">暂停</option>
+                            <option value="2">删除</option>
                         </select>
                     </div>
-                    <div><input type="button" value="搜索" class="btn_search" /></div>
+                    <div><input type="button" value="搜索" class="btn_search" @Click="termSelect"/></div>
                     <input type="button" value="增加" class="btn_add" onclick="location.href='service_add.html';" />
                 </div>  
                 <!--删除的操作提示-->
@@ -90,7 +90,7 @@
                         <th class="width200"></th>
                     </tr>
                     <tr v-for="s in pageInfo.list">
-                        <td><a href="service_detail.html" title="查看明细">{{s.serviceId}}</a></td>
+                        <td><a @Click="toServiceDetail(s.serviceId)" title="查看明细">{{s.serviceId}}</a></td>
                         <td>{{s.accountId}}</td>
                         <td>{{s.accountIdcardNo}}</td>
                         <td>{{s.accountRealName}}</td>

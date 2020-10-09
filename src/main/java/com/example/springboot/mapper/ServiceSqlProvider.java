@@ -16,16 +16,16 @@ public class ServiceSqlProvider {
                 "ON s.`cost_id`=c.`cost_id` " +
                 "WHERE s.`service_status`=0");
         if(!StringUtils.isEmpty(params.get("osUsername"))){
-            sb.append("AND s.`os_username` LIKE CONCAT('%',#{osUsername},'%')");
+            sb.append(" AND s.`os_username` LIKE CONCAT('%',#{osUsername},'%')");
         }
         if(!StringUtils.isEmpty(params.get("unixHost"))){
-            sb.append("AND s.`unix_host`=#{unixHost}");
+            sb.append(" AND s.`unix_host`=#{unixHost}");
         }
         if(!StringUtils.isEmpty(params.get("accountIdcardNo"))){
-            sb.append("AND a.`account_idcard_no`=#{accountIdcardNo}");
+            sb.append(" AND a.`account_idcard_no`=#{accountIdcardNo}");
         }
         if(!StringUtils.isEmpty(params.get("accountStatus"))){
-            sb.append("AND a.`account_status`=#{accountStatus}");
+            sb.append(" AND a.`account_status`=#{accountStatus}");
         }
         return sb.toString();
     }

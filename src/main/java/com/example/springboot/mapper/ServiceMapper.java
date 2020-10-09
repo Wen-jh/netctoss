@@ -19,7 +19,14 @@ public interface ServiceMapper extends Mapper<Service> {
             "ON s.`account_id`=a.`account_id`")
     List<Service> selectUnix();
 
-    @Select("SELECT s.`unix_host`,c.`cost_name`,c.`cost_base_duration`,c.`cost_creattime` FROM service s LEFT JOIN cost c \n" +
+    @Select("SELECT s.`unix_host`,c.`cost_name`,c.`cost_base_duration`,c.`cost_creattime` FROM service s LEFT JOIN cost c  " +
             "ON s.`cost_id`=c.`cost_id`")
     List<Service> selectBill();
+    @Select("SELECT s.`service_id`,a.`account_login_name`,a.`account_id`,a.`account_real_name`,a.`account_idcard_no`,s.`unix_host`,s.`os_username`,s.`service_status`,s.`cost_id`,s.`service_create_date`,c.`cost_name`,c.`cost_descr` " +
+            "FROM service s LEFT JOIN account a " +
+            "ON s.`account_id`=a.`account_id` " +
+            "LEFT JOIN cost c " +
+            "ON s.`cost_id`=c.`cost_id` " +
+            "WHERE s.`service_id`=#{id}")
+    Service selectServiceById(Integer id);
 }

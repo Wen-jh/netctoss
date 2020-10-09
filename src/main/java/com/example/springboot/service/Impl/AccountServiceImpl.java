@@ -13,8 +13,15 @@ import java.util.Map;
 @Service
 public class AccountServiceImpl implements AccountService {
 
+
+
     @Autowired
     AccountMapper accountMapper;
+
+    @Override
+    public Account selectAccountById(Integer id) {
+        return accountMapper.selectAccountById(id);
+    }
 
     @Override
     public Account selectOne(Integer id) {

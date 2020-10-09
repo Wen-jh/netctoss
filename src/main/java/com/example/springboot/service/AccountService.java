@@ -13,4 +13,6 @@ public interface AccountService {
     void setState(Integer id);
 
     Account selectOne(Integer id);
+
+    Account selectAccountById(Integer id);
 }

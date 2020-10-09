@@ -53,6 +53,7 @@
                     <div>
                         状态：
                         <select class="select_search" v-model="params.accountStatus">
+                            <option value="">全部</option>
                             <option value="0">开通</option>
                             <option value="1">暂停</option>
                             <option value="2">删除</option>
@@ -81,7 +82,7 @@
                     </tr>
                     <tr v-for="a in pageInfo.list">
                         <td>{{a.accountId}}</td>
-                        <td><a href="account_detail.html">{{a.accountRealName}}</a></td>
+                        <td><a @Click="toAccount(a.accountId)">{{a.accountRealName}}</a></td>
                         <td>{{a.accountIdcardNo}}</td>
                         <td>{{a.accountLoginName}}</td>
                         <td v-if="a.accountStatus=0">开通</td>

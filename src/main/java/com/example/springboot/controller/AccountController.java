@@ -44,4 +44,14 @@ public class AccountController {
     public Result selectOne(@PathVariable("id") Integer id){
         return new Result(true,"查询成功",accountService.selectOne(id));
     }
+    @RequestMapping("selectAccountById/{id}")
+    @ResponseBody
+    public Result selectAccountById(@PathVariable("id") Integer id){
+        return new Result(true,"查询成功",accountService.selectAccountById(id));
+    }
+
+    @RequestMapping("toAccountDetail")
+    public ModelAndView toAccountDetail(){
+        return new ModelAndView("/account/account_detail.html");
+    }
 }

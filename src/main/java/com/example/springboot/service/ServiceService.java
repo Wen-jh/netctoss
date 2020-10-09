@@ -15,4 +15,6 @@ public interface ServiceService {
     Service selectOne(Integer id);
 
     PageInfo<Service> selectBill(int pageNum, int pageSize);
+
+    Service selectServiceById(Integer id);
 }
